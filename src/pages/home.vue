@@ -67,6 +67,20 @@
               <MenuItem name="4-1">Wiki列表</MenuItem>
               <MenuItem name="4-2">新增Wiki</MenuItem>
             </Submenu>
+            <Submenu name="material">
+              <template slot="title">
+                <Icon type="md-cloud-upload" />
+                资源管理
+              </template>
+              <MenuGroup title="文章素材">
+                <MenuItem :to="{ name: 'postMaterial' }" name="postMaterial">列表</MenuItem>
+                <MenuItem :to="{ name: 'addPost' }" name="addPost">新增</MenuItem>
+              </MenuGroup>
+              <MenuGroup title="图片素材">
+                <MenuItem :to="{ name: 'imagesMaterial' }" name="imagesMaterial">列表</MenuItem>
+                <MenuItem name="addImages">新增</MenuItem>
+              </MenuGroup>
+            </Submenu>
             <Submenu name="tag">
               <template slot="title">
                 <Icon type="ios-pricetag" />
@@ -81,13 +95,6 @@
                 分类管理
               </template>
               <MenuItem :to="{ name: 'addCategory' }" name="addCategory">新增分类</MenuItem>
-            </Submenu>
-            <Submenu name="6">
-              <template slot="title">
-                <Icon type="md-cloud-upload" />
-                资源管理
-              </template>
-              <MenuItem :to="{ name: 'imagesManage' }" name="images">图片</MenuItem>
             </Submenu>
             <Submenu name="settings">
               <template slot="title">
@@ -132,31 +139,18 @@ export default {
       return this.$route.name
     },
     openName: function () {
-      if (this.$route.name === 'userList') {
-        return ['user']
+      switch (this.$route.name) {
+        case 'userList' || 'addUser' || 'updateUser':
+          return ['user']
+        case 'settingNav' || 'settingFriendLink':
+          return ['settings']
+        case 'addArticle' || 'articleList' || 'updateArticle':
+          return ['article']
+        case 'imagesMaterial' || 'postMaterial' || 'addPost':
+          return ['material']
+        default:
+          return []
       }
-      if (this.$route.name === 'addUser') {
-        return ['user']
-      }
-      if (this.$route.name === 'updateUser') {
-        return ['user']
-      }
-      if (this.$route.name === 'settingNav') {
-        return ['settings']
-      }
-      if (this.$route.name === 'settingFriendLink') {
-        return ['settings']
-      }
-      if (this.$route.name === 'addArticle') {
-        return ['article']
-      }
-      if (this.$route.name === 'articleList') {
-        return ['article']
-      }
-      if (this.$route.name === 'updateArticle') {
-        return ['article']
-      }
-      return []
     }
   },
   mounted () {
@@ -172,7 +166,7 @@ export default {
       this.logout()
         .then(res => {
           if (res.code === 0) {
-            location.href = 'http://localhost:3000'
+            this.$router.replace({name: 'login'})
           }
         })
     },
@@ -207,6 +201,7 @@ export default {
       padding: 0 20px;
       align-items: center;
       background-color: #515a6e;
+      user-select: none;
       .layout-logo {
         height: 100%;
         text-align: center;
@@ -261,6 +256,7 @@ export default {
         overflow-x: hidden;
         width: 217px;
         box-sizing: border-box;
+        user-select: none;
         .layout-sider-scroll {
           height: 100%;
           margin-right: -15px;

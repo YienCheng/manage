@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import * as service from '@/service'
+import * as service from '@/service/index'
 import _ from 'lodash'
 export default {
   name: 'updateUser',

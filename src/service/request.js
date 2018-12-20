@@ -93,6 +93,7 @@ export function requestGet (url, params, log) {
  * @returns
  */
 export function requestPost (url, params, payload) {
+  console.log(params)
   params = payload === 'payload' ? params : Qs.stringify(params)
   return new Promise((resolve, reject) => {
     axios.post(url, params)

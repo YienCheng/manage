@@ -33,9 +33,9 @@
 </template>
 
 <script>
-import * as service from '@/service'
+import * as service from '@/service/index'
 import _ from 'lodash'
-import * as utils from '@/utils'
+import * as utils from '@/utils/index'
 export default {
   name: 'articleList',
   data () {

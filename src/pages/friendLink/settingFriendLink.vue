@@ -11,7 +11,7 @@
           <Button @click="addFriendLink" type="primary" icon="md-add" ghost>新增友情链接</Button>
         </div>
         <div class="menu-pannel-container">
-          <Table :columns="columns" :data="menuData"></Table>
+          <Table :columns="columns" :data="menuData" :loading="loading"></Table>
         </div>
       </div>
     </div>
@@ -19,8 +19,8 @@
 </template>
 
 <script>
-import * as service from '@/service'
-import {formatDate} from '@/utils'
+import * as service from '@/service/index'
+import {formatDate} from '@/utils/index'
 export default {
   name: 'FriendLinkSetting',
   created () {

@@ -68,12 +68,12 @@
 </template>
 
 <script>
-import { formatDate } from '@/utils'
+import { formatDate } from '@/utils/index'
 import MarkdownEditor from '@/components/MarkdownEditor'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/github-gist.css'
 import { mapState } from 'vuex'
-import * as service from '@/service'
+import * as service from '@/service/index'
 window.hljs = hljs
 hljs.initHighlightingOnLoad()
 export default {

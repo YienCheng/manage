@@ -28,6 +28,21 @@ html,body {
   border-color: #eee;
   box-shadow: 0 1px 6px rgba(0,0,0,.2);
 }
+.search-content {
+  background-color: #fff;
+  min-height: 20px;
+  margin: 0 auto 20px;
+  padding: 10px;
+  border-radius: 2px;
+  border: 1px solid rgb(232, 234, 236);
+  box-sizing: border-box;
+  transition: all .3s;
+  user-select: none;
+}
+.search-content:hover {
+  border-color: #eee;
+  box-shadow: 0 1px 6px rgba(0,0,0,.2);
+}
 .layout-pagination {
   display: flex;
   justify-content: flex-end;

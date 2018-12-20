@@ -6,14 +6,14 @@
       <BreadcrumbItem>图片</BreadcrumbItem>
     </Breadcrumb>
     <div class="layout-content">
-      图片
+      图片素材
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'imagesManage'
+  name: 'imagesMaterial'
 }
 </script>
 

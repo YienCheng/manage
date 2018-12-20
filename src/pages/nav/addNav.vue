@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import * as service from '@/service'
+import * as service from '@/service/index'
 export default {
   name: 'addNav',
   data () {

@@ -3,10 +3,10 @@
     <Breadcrumb :style="{marginBottom: '20px'}">
       <BreadcrumbItem>我的位置</BreadcrumbItem>
       <BreadcrumbItem>导航设置</BreadcrumbItem>
-      <BreadcrumbItem>新增友情链接</BreadcrumbItem>
+      <BreadcrumbItem>编辑友情链接</BreadcrumbItem>
     </Breadcrumb>
     <div class="layout-content">
-      <div class="addFriendLink">
+      <div class="updateFriendLink">
         <Form ref="form" :model="form" :rules="rules" :label-width="80">
           <FormItem label="名称" prop="name">
             <Input type="text" v-model="form.name" placeholder="请输入名称"></Input>
@@ -32,7 +32,7 @@
           </FormItem>
           <FormItem>
             <Button @click="handleSubmit('form')" type="primary" :loading="submitLoding">提交</Button>
-            <Button @click="handleReset('form')" style="margin-left: 8px">重置</Button>
+            <Button @click="handleReset('form')" style="margin-left: 8px">取消</Button>
           </FormItem>
         </Form>
       </div>
@@ -41,9 +41,12 @@
 </template>
 
 <script>
-import * as service from '@/service'
+import * as service from '@/service/index'
 export default {
-  name: 'addFriendLink',
+  name: 'updateFriendLink',
+  created () {
+    this.getFriendLink()
+  },
   data () {
     return {
       form: {
@@ -64,7 +67,7 @@ export default {
           { required: true, message: '请输入链接', trigger: 'blur' }
         ],
         level: [
-          { required: true, message: '请输入级别', trigger: 'blur' }
+          { required: true, message: '请输入等级', trigger: 'blur' }
         ],
         status: [
           { required: true, message: '请选择状态', trigger: 'blur' }
@@ -78,11 +81,12 @@ export default {
       this.$refs[name].validate((valid) => {
         if (valid) {
           this.submitLoding = true
-          service.addFriendLink(this.form)
+          service.updateFriendLink(this.form)
             .then(res => {
               if (res.code === 0) {
                 this.$refs[name].resetFields()
-                this.$Message.success('新增友情链接成功成功')
+                this.$Message.success('更新友情链接成功')
+                this.$router.push({name: 'settingFriendLink'})
               }
               this.submitLoding = false
             })
@@ -94,13 +98,30 @@ export default {
     },
     handleReset (name) {
       this.$refs[name].resetFields()
+      this.getFriendLink()
+    },
+    getFriendLink () {
+      return service.getFriendLink({
+        _id: this.$route.params.id
+      })
+        .then(res => {
+          if (res.code === 0) {
+            if (res.result.status) {
+              res.result.status = '1'
+            } else {
+              res.result.status = '0'
+            }
+            res.result.level += ''
+            this.form = res.result
+          }
+        })
     }
   }
 }
 </script>
 
 <style lang="less">
-  .addFriendLink {
+  .updateFriendLink {
     width: 400px;
     margin: 30px auto;
   }

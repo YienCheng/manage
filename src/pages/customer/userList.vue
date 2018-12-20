@@ -19,9 +19,9 @@
 </template>
 
 <script>
-import * as service from '@/service'
+import * as service from '@/service/index'
 import _ from 'lodash'
-import * as utils from '@/utils'
+import * as utils from '@/utils/index'
 import userListExpand from '@/components/userList-expand'
 export default {
   name: 'userList',

@@ -22,8 +22,8 @@
 </template>
 
 <script>
-import * as service from '@/service'
-import {formatDate} from '@/utils'
+import * as service from '@/service/index'
+import {formatDate} from '@/utils/index'
 export default {
   name: 'navSetting',
   created () {

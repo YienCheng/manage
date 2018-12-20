@@ -1,4 +1,8 @@
 import { requestPost, requestGet } from './request'
+
+// 登入
+export const login = (options) => requestPost('/manageLogin', options)
+
 // 获取当前登录的用户信息
 export const getUserInfo = (options) => requestGet('/manage/getCurrentUserInfo', options)
 // 退出登入
@@ -65,3 +69,8 @@ export const getArticle = (options) => requestGet('/manage/getArticle', options)
 export const updateArticle = (options) => requestPost('/manage/updateArticle', options)
 // 删除文章
 export const deleteArticle = (options) => requestPost('/manage/deleteArticle', options)
+
+// 新增文章资源
+export const addPost = (options) => requestPost('/manage/addPost', options)
+// 获取文章资源
+export const getPostList = (options) => requestPost('/manage/getPostList', options)
