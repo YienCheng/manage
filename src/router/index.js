@@ -27,7 +27,7 @@ const updateArticle = resolve => require.ensure([], () => resolve(require('@/pag
 const imagesMaterial = resolve => require.ensure([], () => resolve(require('@/pages/material/imagesMaterial')), 'imagesManage')
 const postMaterial = resolve => require.ensure([], () => resolve(require('@/pages/material/postMaterial')), 'postManage')
 const addPost = resolve => require.ensure([], () => resolve(require('@/pages/material/addPost')), 'postManage')
-
+const updatePost = resolve => require.ensure([], () => resolve(require('@/pages/material/updatePost')), 'updatePost')
 const router = new Router({
   mode: 'history',
   base: '/manage/',
@@ -128,7 +128,7 @@ const router = new Router({
           path: 'addArticle',
           name: 'addArticle',
           meta: {
-            title: '发表文章-网站后台'
+            title: '发表博文-网站后台'
           },
           component: addArticle
         },
@@ -136,7 +136,7 @@ const router = new Router({
           path: 'articleList',
           name: 'articleList',
           meta: {
-            title: '文章列表-网站后台'
+            title: '博文列表-网站后台'
           },
           component: articleList
         },
@@ -144,7 +144,7 @@ const router = new Router({
           path: 'updateArticle/:id',
           name: 'updateArticle',
           meta: {
-            title: '更新文章-网站后台'
+            title: '更新博文-网站后台'
           },
           component: updateArticle
         },
@@ -176,7 +176,7 @@ const router = new Router({
           path: 'postMaterial',
           name: 'postMaterial',
           meta: {
-            title: '文章管理-网站后台'
+            title: '文章列表-资源管理-网站后台'
           },
           component: postMaterial
         },
@@ -184,9 +184,17 @@ const router = new Router({
           path: 'addPost',
           name: 'addPost',
           meta: {
-            title: '撰写文章-网站后台'
+            title: '撰写文章-资源管理-网站后台'
           },
           component: addPost
+        },
+        {
+          path: 'updatePost/:id',
+          name: 'updatePost',
+          meta: {
+            title: '更新文章-文章素材-网站后台'
+          },
+          component: updatePost
         }
       ]
     },

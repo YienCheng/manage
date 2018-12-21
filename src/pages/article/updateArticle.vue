@@ -2,8 +2,8 @@
   <div class="layout-wrapper">
     <Breadcrumb :style="{marginBottom: '20px'}">
       <BreadcrumbItem>我的位置</BreadcrumbItem>
-      <BreadcrumbItem>文章管理</BreadcrumbItem>
-      <BreadcrumbItem>编辑文章</BreadcrumbItem>
+      <BreadcrumbItem>博文管理</BreadcrumbItem>
+      <BreadcrumbItem>编辑博文</BreadcrumbItem>
     </Breadcrumb>
     <div class="layout-content">
       <div class="updateArticle">

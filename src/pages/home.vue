@@ -47,10 +47,10 @@
             <Submenu name="article">
               <template slot="title">
                 <Icon type="ios-book" />
-                文章管理
+                博文管理
               </template>
-              <MenuItem :to="{ name: 'articleList' }" name="articleList">文章列表</MenuItem>
-              <MenuItem :to="{ name: 'addArticle' }" name="addArticle">撰写文章</MenuItem>
+              <MenuItem :to="{ name: 'articleList' }" name="articleList">博文列表</MenuItem>
+              <MenuItem :to="{ name: 'addArticle' }" name="addArticle">发表博文</MenuItem>
             </Submenu>
             <Submenu name="3">
               <template slot="title">
@@ -73,8 +73,8 @@
                 资源管理
               </template>
               <MenuGroup title="文章素材">
-                <MenuItem :to="{ name: 'postMaterial' }" name="postMaterial">列表</MenuItem>
-                <MenuItem :to="{ name: 'addPost' }" name="addPost">新增</MenuItem>
+                <MenuItem :to="{ name: 'postMaterial' }" name="postMaterial">文章列表</MenuItem>
+                <MenuItem :to="{ name: 'addPost' }" name="addPost">撰写文章</MenuItem>
               </MenuGroup>
               <MenuGroup title="图片素材">
                 <MenuItem :to="{ name: 'imagesMaterial' }" name="imagesMaterial">列表</MenuItem>
@@ -139,38 +139,45 @@ export default {
       return this.$route.name
     },
     openName: function () {
-      switch (this.$route.name) {
-        case 'userList' || 'addUser' || 'updateUser':
-          return ['user']
-        case 'settingNav' || 'settingFriendLink':
-          return ['settings']
-        case 'addArticle' || 'articleList' || 'updateArticle':
-          return ['article']
-        case 'imagesMaterial' || 'postMaterial' || 'addPost':
-          return ['material']
-        default:
-          return []
+      let name = []
+      let Menu = {
+        user: ['userList', 'addUser', 'updateUser'],
+        settings: ['settingNav', 'settingFriendLink'],
+        article: ['addArticle', 'articleList', 'updateArticle'],
+        material: ['imagesMaterial', 'postMaterial', 'addPost', 'updatePost']
       }
+      Object.keys(Menu).forEach((MenuName) => {
+        Menu[MenuName].forEach((item) => {
+          if (this.$route.name === item) {
+            name.push(MenuName)
+          }
+        })
+      })
+      return name
     }
   },
   mounted () {
     let _this = this
     this.computedContentWidth()
-    window.addEventListener('resize', function () {
-      _this.computedContentWidth()
-    })
+    window.addEventListener('resize', _this.computedContentWidth)
   },
   methods: {
     ...mapActions(['logout', 'getUserInfo']),
     logoutLocal () {
+      this.$Spin.show()
       this.logout()
         .then(res => {
           if (res.code === 0) {
             this.$router.replace({name: 'login'})
           }
+          this.$Spin.hide()
+        })
+        .catch(() => {
+          this.$Spin.hide()
         })
     },
     refresh () {
+      this.$Spin.show()
       location.reload()
       // this.reload()
     },
@@ -178,6 +185,9 @@ export default {
       this.$refs.content.style.width = window.innerWidth - 217 + 'px'
       this.$refs.content.style.height = window.innerHeight - 60 + 'px'
     }
+  },
+  destroyed () {
+    window.removeEventListener('resize', this.computedContentWidth)
   }
 }
 </script>

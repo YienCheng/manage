@@ -73,4 +73,12 @@ export const deleteArticle = (options) => requestPost('/manage/deleteArticle', o
 // 新增文章资源
 export const addPost = (options) => requestPost('/manage/addPost', options)
 // 获取文章资源
-export const getPostList = (options) => requestPost('/manage/getPostList', options)
+export const getPostList = (options) => requestGet('/manage/getPostList', options)
+// 获取文章资源
+export const deletePost = (options) => requestPost('/manage/deletePost', options)
+// 获取文章单个
+export const getPost = (options) => requestGet('/manage/getPost', options)
+// 更新文章
+export const updatePost = (options) => requestPost('/manage/updatePost', options)
+// 通过title模糊查询
+export const getByTitleFuzzy = (options) => requestGet('/manage/getByTitleFuzzy', options)

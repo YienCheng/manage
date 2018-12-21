@@ -17,13 +17,14 @@
             <Input type="text" v-model="form.id" placeholder="请输入文章ID"></Input>
           </FormItem>
           <FormItem prop="title" label="标题" :label-width="40">
-            <Input type="text" v-model="form.title" placeholder="请输入文章标题"></Input>
+            <Input type="text" v-model="form.title" placeholder="请输入文章标题关键字"></Input>
           </FormItem>
           <FormItem prop="date" label="创建时间" :label-width="60">
             <DatePicker
               v-model="form.date"
               type="date"
               placeholder="请选择创建时间"
+              clear
               :editable="false"
               :options="options"
               ></DatePicker>
@@ -67,6 +68,8 @@
 
 <script>
 import * as service from '@/service'
+import * as utils from '@/utils/index'
+import _ from 'lodash'
 export default {
   name: 'postMaterial',
   data () {
@@ -94,7 +97,8 @@ export default {
           title: '标题',
           key: 'title',
           align: 'center',
-          tooltip: true
+          tooltip: true,
+          width: 200
         },
         {
           title: '描述',
@@ -126,7 +130,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    // _this.$router.push({name: 'updateArticle', params: {id: params.row._id}})
+                    _this.$router.push({name: 'updatePost', params: {id: params.row._id}})
                   }
                 }
               }, '编辑'),
@@ -141,20 +145,20 @@ export default {
                       title: '删除后不可恢复，确认删除吗,？',
                       content: `<p>标题:${params.row.title}</p>`,
                       onOk: () => {
-                        // service.deleteArticle({
-                        //   id: params.row._id
-                        // })
-                        //   .then(res => {
-                        //     if (res.code === 0) {
-                        //       _.forEach(_this.postList, function (item) {
-                        //         if (item._id === params.row._id) {
-                        //           let index = _this.postList.indexOf(item)
-                        //           _this.postList.splice(index, 1)
-                        //         }
-                        //       })
-                        //       _this.$Message.success('删除成功！')
-                        //     }
-                        //   })
+                        service.deletePost({
+                          id: params.row._id
+                        })
+                          .then(res => {
+                            if (res.code === 0) {
+                              _.forEach(_this.postList, function (item) {
+                                if (item._id === params.row._id) {
+                                  let index = _this.postList.indexOf(item)
+                                  _this.postList.splice(index, 1)
+                                }
+                              })
+                              _this.$Message.success('删除成功！')
+                            }
+                          })
                       }
                     })
                   }
@@ -166,34 +170,61 @@ export default {
       ],
       postList: [],
       loading: false,
-      total: 0
+      total: 100
     }
   },
   methods: {
-    handleSubmit (name) {
-
+    handleSubmit () {
+      this.getPostList()
+    },
+    handleReset (name) {
+      this.$refs[name].resetFields()
+      this.getPostList()
     },
     pageChange (pageNumber) {
       this.pageNumber = pageNumber
+      this.getPostList()
     },
     pageSizeChange (pageSize) {
       this.pageNumber = 1
       this.pageSize = pageSize
+      this.getPostList()
     },
     getPostList () {
+      this.loading = true
       service.getPostList({
         id: this.form.id,
         title: this.form.title,
-        date: this.form.date ? this.form.date.getTime() : null
+        createTime: this.form.date ? this.form.date.getTime() : null,
+        pageNumber: this.pageNumber,
+        pageSize: this.pageSize
       })
+        .then(res => {
+          if (res.code === 0) {
+            this.postList = res.result.list
+            this.total = res.result.total
+            _.forEach(res.result.list, item => {
+              item.createTime = utils.formatDate(new Date(item.createTime), 'yyyy-MM-dd hh:mm:ss')
+            })
+          }
+          this.loading = false
+        })
+        .catch(() => {
+          this.loading = false
+        })
     }
+  },
+  created () {
+    this.getPostList()
   }
 }
 </script>
 
 <style lang="less">
 .postMaterial {
-  .form {
+  .search-content {
+    padding-top: 24px;
+    padding-bottom: 0;
   }
   .handle-btns {
     margin-bottom: 10px;

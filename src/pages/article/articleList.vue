@@ -2,30 +2,61 @@
   <div class="layout-wrapper">
     <Breadcrumb :style="{marginBottom: '20px'}">
       <BreadcrumbItem>我的位置</BreadcrumbItem>
-      <BreadcrumbItem>文章管理</BreadcrumbItem>
-      <BreadcrumbItem>文章列表</BreadcrumbItem>
+      <BreadcrumbItem>博文管理</BreadcrumbItem>
+      <BreadcrumbItem>博文列表</BreadcrumbItem>
     </Breadcrumb>
-    <div class="layout-content">
-      <div class="articleList">
-        <Table
-          :columns="columns"
-          :data="postList"
-          :loading="loading"
-        >
-        </Table>
-        <div class="layout-pagination">
-          <Page
-            size="small"
-            show-elevator
-            show-sizer
-            show-total
-            :total="total"
-            :current="pageNumber"
-            :page-size="pageSize"
-            :page-size-opts="[10, 20, 30, 40]"
-            @on-change="pageChange"
-            @on-page-size-change="pageSizeChange"
-          />
+    <div class="articleList">
+      <div class="search-content">
+        <Form
+          class="form"
+          ref="form"
+          inline
+          :label-width="80"
+          :model="form">
+          <FormItem prop="id" label="ID" :label-width="30">
+            <Input type="text" v-model="form.id" placeholder="请输入文章ID"></Input>
+          </FormItem>
+          <FormItem prop="title" label="标题" :label-width="40">
+            <Input type="text" v-model="form.title" placeholder="请输入文章标题关键字"></Input>
+          </FormItem>
+          <FormItem prop="date" label="创建时间" :label-width="60">
+            <DatePicker
+              v-model="form.date"
+              type="date"
+              placeholder="请选择创建时间"
+              clear
+              :editable="false"
+              :options="options"
+            ></DatePicker>
+          </FormItem>
+          <FormItem :label-width="0">
+            <Button type="primary" @click="handleSubmit('form')">查询</Button>
+            <Button @click="handleReset('form')" style="margin-left: 8px">重置</Button>
+          </FormItem>
+        </Form>
+      </div>
+      <div class="layout-content">
+        <div class="articleList">
+          <Table
+            :columns="columns"
+            :data="postList"
+            :loading="loading"
+          >
+          </Table>
+          <div class="layout-pagination">
+            <Page
+              size="small"
+              show-elevator
+              show-sizer
+              show-total
+              :total="total"
+              :current="pageNumber"
+              :page-size="pageSize"
+              :page-size-opts="[10, 20, 30, 40]"
+              @on-change="pageChange"
+              @on-page-size-change="pageSizeChange"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -60,8 +91,8 @@ export default {
           tooltip: true
         },
         {
-          title: '描述',
-          key: 'description',
+          title: '摘要',
+          key: 'abstract',
           align: 'center',
           tooltip: true
         },
@@ -137,7 +168,6 @@ export default {
                 },
                 on: {
                   click: () => {
-                    console.log(_this)
                     _this.$router.push({name: 'updateArticle', params: {id: params.row._id}})
                   }
                 }
@@ -180,7 +210,17 @@ export default {
       loading: false,
       pageSize: 10,
       pageNumber: 1,
-      total: 100
+      total: 100,
+      form: {
+        id: '',
+        title: '',
+        date: ''
+      },
+      options: {
+        disabledDate (date) {
+          return date.getTime() > Date.now()
+        }
+      }
     }
   },
   created () {
@@ -190,6 +230,9 @@ export default {
     getArticleList () {
       this.loading = true
       service.getArticleList({
+        id: this.form.id,
+        title: this.form.title,
+        createTime: this.form.date ? this.form.date.getTime() : null,
         pageSize: this.pageSize,
         pageNumber: this.pageNumber
       })
@@ -215,6 +258,13 @@ export default {
       this.pageNumber = 1
       this.pageSize = pageSize
       this.getArticleList()
+    },
+    handleSubmit () {
+      this.getArticleList()
+    },
+    handleReset (name) {
+      this.$refs[name].resetFields()
+      this.getArticleList()
     }
   }
 }
@@ -222,6 +272,9 @@ export default {
 
 <style lang="less">
 .articleList {
-
+  .search-content {
+    padding-top: 24px;
+    padding-bottom: 0;
+  }
 }
 </style>

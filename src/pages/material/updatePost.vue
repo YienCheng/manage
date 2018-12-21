@@ -6,7 +6,7 @@
       <BreadcrumbItem>撰写文章</BreadcrumbItem>
     </Breadcrumb>
     <div class="layout-content">
-      <div class="addPost">
+      <div class="updatePost">
         <Form :model="form" ref="form" :rules="rules">
           <FormItem label="标题" prop="title">
             <Input v-model="form.title" placeholder="请输入文章标题"></Input>
@@ -28,7 +28,7 @@
             />
           </FormItem>
           <FormItem style="text-align: right;">
-            <Button size="large" type="primary" :loading="submitLoding" @click="saveArticle('form')">保存</Button>
+            <Button size="large" type="primary" :loading="submitLoding" @click="updatePost('form')">保存</Button>
           </FormItem>
         </Form>
       </div>
@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { formatDate } from '@/utils/index'
 import MarkdownEditor from '@/components/MarkdownEditor'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/github-gist.css'
@@ -45,11 +46,11 @@ import * as service from '@/service'
 window.hljs = hljs
 hljs.initHighlightingOnLoad()
 export default {
-  name: 'addPost',
+  name: 'updatePost',
   mounted () {
     document.addEventListener('keydown', this.CtrlS)
-    if (sessionStorage.getItem('new_article_editor')) {
-      this.form = JSON.parse(sessionStorage.getItem('new_article_editor'))
+    if (sessionStorage.getItem('update_post_editor')) {
+      this.form = JSON.parse(sessionStorage.getItem('update_post_editor'))
       this.$refs.markdownEditor.setValue(this.form.content)
     }
   },
@@ -71,6 +72,7 @@ export default {
         }
       },
       form: {
+        id: this.$route.params.id,
         content: '',
         keywords: '',
         description: '',
@@ -99,7 +101,7 @@ export default {
     CtrlS (event) {
       if (event.keyCode === 83 && (navigator.platform.match('Mac') ? event.metaKey : event.ctrlKey)) {
         event.preventDefault()
-        sessionStorage.setItem('new_article_editor', JSON.stringify(this.form))
+        sessionStorage.setItem('update_post_editor', JSON.stringify(this.form))
         this.$Message.success({
           content: '文章已保存至本地sessionStorage',
           duration: 0.8
@@ -107,11 +109,12 @@ export default {
         return false
       }
     },
-    saveArticle (name) {
+    updatePost (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
           this.submitLoding = true
-          service.addPost(this.form)
+          this.form.id = this.$route.params.id
+          service.updatePost(this.form)
             .then(res => {
               if (res.code === 0) {
                 this.$Message.success('保存成功')
@@ -127,15 +130,31 @@ export default {
       })
     }
   },
+  created () {
+    service.getPost({
+      id: this.$route.params.id
+    })
+      .then(res => {
+        if (res.code === 0) {
+          res.result.createTime = formatDate(new Date(res.result.createTime), 'yyyy-MM-dd hh:mm:ss')
+          Object.keys(this.form).forEach(key => {
+            this.form[key] = res.result[key]
+          })
+          this.$refs.markdownEditor.setValue(this.form.content)
+        } else {
+          this.$router.replace({name: 'postMaterial'})
+        }
+      })
+  },
   destroyed () {
-    sessionStorage.removeItem('new_article_editor')
+    sessionStorage.removeItem('update_post_editor')
     document.removeEventListener('keydown', this.CtrlS)
   }
 }
 </script>
 
 <style lang="less">
-  .addPost {
+  .updatePost {
     .ivu-form-item-label {
       padding-left: 10px;
       font-size: 16px;
