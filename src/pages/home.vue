@@ -59,13 +59,13 @@
               </template>
               <MenuItem name="3-1">评论列表</MenuItem>
             </Submenu>
-            <Submenu name="4">
+            <Submenu name="wiki">
               <template slot="title">
                 <Icon type="md-git-network" />
                 Wiki管理
               </template>
-              <MenuItem name="4-1">Wiki列表</MenuItem>
-              <MenuItem name="4-2">新增Wiki</MenuItem>
+              <MenuItem :to="{ name: 'wikiList' }" name="wikiList">Wiki列表</MenuItem>
+              <MenuItem :to="{ name: 'addWiki' }" name="addWiki">新增Wiki</MenuItem>
             </Submenu>
             <Submenu name="material">
               <template slot="title">
@@ -144,7 +144,10 @@ export default {
         user: ['userList', 'addUser', 'updateUser'],
         settings: ['settingNav', 'settingFriendLink'],
         article: ['addArticle', 'articleList', 'updateArticle'],
-        material: ['imagesMaterial', 'postMaterial', 'addPost', 'updatePost']
+        material: ['imagesMaterial', 'postMaterial', 'addPost', 'updatePost'],
+        tag: ['addTag'],
+        category: ['addCategory'],
+        wiki: ['addWiki', 'wikiList', 'updateWiki']
       }
       Object.keys(Menu).forEach((MenuName) => {
         Menu[MenuName].forEach((item) => {

@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import * as service from '@/service/index'
+import * as service from '@/service'
 export default {
   name: 'addArticle',
   data () {

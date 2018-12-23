@@ -8,26 +8,37 @@ Vue.use(Router)
 const login = resolve => require.ensure([], () => resolve(require('@/pages/login')), 'login')
 const home = resolve => require.ensure([], () => resolve(require('@/pages/home')), 'home')
 const index = resolve => require.ensure([], () => resolve(require('@/pages/index')), 'index')
+const siteSettings = resolve => require.ensure([], () => resolve(require('@/pages/siteSettings')), 'siteSettings')
+
 const userList = resolve => require.ensure([], () => resolve(require('@/pages/customer/userList')), 'userList')
 const addUser = resolve => require.ensure([], () => resolve(require('@/pages/customer/addUser')), 'addUser')
-const siteSettings = resolve => require.ensure([], () => resolve(require('@/pages/siteSettings')), 'siteSettings')
 const updateUser = resolve => require.ensure([], () => resolve(require('@/pages/customer/updateUser')), 'updateUser')
+
 const settingNav = resolve => require.ensure([], () => resolve(require('@/pages/setting/settingNav')), 'settingNav')
 const addNav = resolve => require.ensure([], () => resolve(require('@/pages/nav/addNav')), 'addNav')
 const updateNav = resolve => require.ensure([], () => resolve(require('@/pages/nav/updateNav')), 'updateNav')
+
 const settingFriendLink = resolve => require.ensure([], () => resolve(require('@/pages/friendLink/settingFriendLink')), 'settingFriendLink')
 const addFriendLink = resolve => require.ensure([], () => resolve(require('@/pages/friendLink/addFriendLink')), 'addFriendLink')
 const updateFriendLink = resolve => require.ensure([], () => resolve(require('@/pages/friendLink/updateFriendLink')), 'updateFriendLink')
+
 const addArticle = resolve => require.ensure([], () => resolve(require('@/pages/article/addArticle')), 'addArticle')
-const addCategory = resolve => require.ensure([], () => resolve(require('@/pages/category/addCategory')), 'addCategory')
-const addTag = resolve => require.ensure([], () => resolve(require('@/pages/tag/addTag')), 'addTag')
 const articleList = resolve => require.ensure([], () => resolve(require('@/pages/article/articleList')), 'articleList')
 const updateArticle = resolve => require.ensure([], () => resolve(require('@/pages/article/updateArticle')), 'updateArticle')
+
+const addCategory = resolve => require.ensure([], () => resolve(require('@/pages/category/addCategory')), 'addCategory')
+
+const addTag = resolve => require.ensure([], () => resolve(require('@/pages/tag/addTag')), 'addTag')
 
 const imagesMaterial = resolve => require.ensure([], () => resolve(require('@/pages/material/imagesMaterial')), 'imagesManage')
 const postMaterial = resolve => require.ensure([], () => resolve(require('@/pages/material/postMaterial')), 'postManage')
 const addPost = resolve => require.ensure([], () => resolve(require('@/pages/material/addPost')), 'postManage')
 const updatePost = resolve => require.ensure([], () => resolve(require('@/pages/material/updatePost')), 'updatePost')
+
+const addWiki = resolve => require.ensure([], () => resolve(require('@/pages/wiki/addWiki')), 'addWiki')
+const wikiList = resolve => require.ensure([], () => resolve(require('@/pages/wiki/wikiList')), 'wikiList')
+const updateWiki = resolve => require.ensure([], () => resolve(require('@/pages/wiki/updateWiki')), 'updateWiki')
+
 const router = new Router({
   mode: 'history',
   base: '/manage/',
@@ -141,7 +152,7 @@ const router = new Router({
           component: articleList
         },
         {
-          path: 'updateArticle/:id',
+          path: 'updateArticle/:id/:postId',
           name: 'updateArticle',
           meta: {
             title: '更新博文-网站后台'
@@ -195,6 +206,30 @@ const router = new Router({
             title: '更新文章-文章素材-网站后台'
           },
           component: updatePost
+        },
+        {
+          path: 'addWiki',
+          name: 'addWiki',
+          meta: {
+            title: '新增Wiki-网站后台'
+          },
+          component: addWiki
+        },
+        {
+          path: 'wikiList',
+          name: 'wikiList',
+          meta: {
+            title: 'wiki列表-网站后台'
+          },
+          component: wikiList
+        },
+        {
+          path: 'updateWiki/:id',
+          name: 'updateWiki',
+          meta: {
+            title: '更新wiki-网站后台'
+          },
+          component: updateWiki
         }
       ]
     },

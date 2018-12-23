@@ -9,10 +9,10 @@
       <div class="addTag">
         <Form ref="form" :model="form" :rules="rules">
           <FormItem label="标签名称" prop="name">
-            <Input type="text" v-model="form.name" placeholder="请输入导航名称"></Input>
+            <Input type="text" v-model="form.name" placeholder="请输入标签名称"></Input>
           </FormItem>
           <FormItem label="标签描述" prop="description">
-            <Input type="text" v-model="form.description" placeholder="请输入导航描述"></Input>
+            <Input type="text" v-model="form.description" placeholder="请输入标签名称"></Input>
           </FormItem>
           <FormItem label="是否启用" prop="enable">
             <RadioGroup v-model="form.enable">

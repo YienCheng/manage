@@ -33,17 +33,6 @@
           <FormItem label="图片" prop="banner">
             <Input v-model="form.banner" placeholder="请输入文章Banner地址"></Input>
           </FormItem>
-          <FormItem label="关联文章" prop="post">
-            <Select
-              v-model="form.post"
-              filterable
-              remote
-              :remote-method="remoteMethod"
-              :loading="Postloading"
-              placeholder="请输入文章标题关键字">
-              <Option v-for="(option, index) in postOptions" :value="option._id" :key="index">{{option.title}}</Option>
-            </Select>
-          </FormItem>
           <FormItem label="分类" prop="category">
             <Select
               v-model="form.category" filterable>
@@ -79,8 +68,7 @@ export default {
         authorLink: '/about',
         banner: '',
         category: '',
-        tags: [],
-        post: ''
+        tags: []
       },
       rules: {
         title: [
@@ -97,16 +85,12 @@ export default {
         ],
         banner: [
           { required: true, message: '请输入文章Banner图片地址', trigger: 'blur' }
-        ],
-        post: [
-          { required: true, message: '请选择要关联的文章', trigger: 'blur' }
         ]
       },
       categoryList: [],
       tagList: [],
       postOptions: [],
-      loading: false,
-      Postloading: false
+      loading: false
     }
   },
   methods: {
@@ -117,7 +101,7 @@ export default {
           let params = Object.assign({}, this.form)
           params.tags = params.tags.toString()
           params.id = this.$route.params.id
-          service.updateArticle(params)
+          service.updateWiki(params)
             .then(res => {
               if (res.code === 0) {
                 this.$Message.success('保存成功')
@@ -132,7 +116,7 @@ export default {
         }
       })
     },
-    handleReset (name) {
+    handleReset () {
       service.getArticle({
         id: this.$route.params.id
       })
@@ -142,36 +126,6 @@ export default {
               this.form[key] = res.result[key]
             })
           }
-        })
-      service.getPost({
-        id: this.$route.params.postId
-      })
-        .then(res => {
-          if (res.code === 0) {
-            this.postOptions = [{
-              _id: res.result._id,
-              title: res.result.title
-            }]
-          }
-          this.Postloading = false
-        })
-        .catch(() => {
-          this.Postloading = false
-        })
-    },
-    remoteMethod (query) {
-      this.Postloading = true
-      service.getByTitleFuzzy({
-        title: query
-      })
-        .then(res => {
-          if (res.code === 0) {
-            this.postOptions = res.result
-          }
-          this.Postloading = false
-        })
-        .catch(() => {
-          this.Postloading = false
         })
     }
   },
@@ -197,21 +151,6 @@ export default {
             this.form[key] = res.result[key]
           })
         }
-      })
-    service.getPost({
-      id: this.$route.params.postId
-    })
-      .then(res => {
-        if (res.code === 0) {
-          this.postOptions = [{
-            _id: res.result._id,
-            title: res.result.title
-          }]
-        }
-        this.Postloading = false
-      })
-      .catch(() => {
-        this.Postloading = false
       })
   }
 }

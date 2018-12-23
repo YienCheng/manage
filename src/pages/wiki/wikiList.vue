@@ -5,7 +5,7 @@
       <BreadcrumbItem>博文管理</BreadcrumbItem>
       <BreadcrumbItem>博文列表</BreadcrumbItem>
     </Breadcrumb>
-    <div class="articleList">
+    <div class="wikiList">
       <div class="search-content">
         <Form
           class="form"
@@ -36,7 +36,7 @@
         </Form>
       </div>
       <div class="layout-content">
-        <div class="articleList">
+        <div class="wikiList">
           <Table
             :columns="columns"
             :data="postList"
@@ -68,7 +68,7 @@ import * as service from '@/service/index'
 import _ from 'lodash'
 import * as utils from '@/utils/index'
 export default {
-  name: 'articleList',
+  name: 'wikiList',
   data () {
     return {
       columns: [
@@ -168,7 +168,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    _this.$router.push({name: 'updateArticle', params: {id: params.row._id, postId: params.row.post}})
+                    _this.$router.push({name: 'updateWiki', params: {id: params.row._id, postId: params.row.post}})
                   }
                 }
               }, '编辑'),
@@ -224,12 +224,12 @@ export default {
     }
   },
   created () {
-    this.getArticleList()
+    this.getWikiList()
   },
   methods: {
-    getArticleList () {
+    getWikiList () {
       this.loading = true
-      service.getArticleList({
+      service.getWikiList({
         id: this.form.id,
         title: this.form.title,
         createTime: this.form.date ? this.form.date.getTime() : null,
@@ -252,26 +252,26 @@ export default {
     },
     pageChange (pageNumber) {
       this.pageNumber = pageNumber
-      this.getArticleList()
+      this.getWikiList()
     },
     pageSizeChange (pageSize) {
       this.pageNumber = 1
       this.pageSize = pageSize
-      this.getArticleList()
+      this.getWikiList()
     },
     handleSubmit () {
-      this.getArticleList()
+      this.getWikiList()
     },
     handleReset (name) {
       this.$refs[name].resetFields()
-      this.getArticleList()
+      this.getWikiList()
     }
   }
 }
 </script>
 
 <style lang="less">
-.articleList {
+.wikiList {
   .search-content {
     padding-top: 24px;
     padding-bottom: 0;

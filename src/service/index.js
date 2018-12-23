@@ -57,8 +57,14 @@ export const getTagList = (options) => requestGet('/manage/getTagList', options)
 
 // 新增文章
 export const addArticle = (options) => requestPost('/manage/addArticle', options)
+// 新增wiki
+export const addWiki = (options) => requestPost('/manage/addWiki', options)
 // 获取文章列表
 export const getArticleList = (options) => requestGet('/manage/getArticleList', options)
+// 获取wiki列表
+export const getWikiList = (options) => requestGet('/manage/getWikiList', options)
+// 更新wiki
+export const updateWiki = (options) => requestPost('/manage/updateWiki', options)
 // 切换文章发布状态
 export const switchPublished = (options) => requestPost('/manage/switchPublished', options)
 // 切换文章推荐状态
