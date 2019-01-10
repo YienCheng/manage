@@ -154,10 +154,25 @@ export default {
         {
           title: '操作',
           align: 'center',
-          width: 130,
+          width: 200,
           render: (h, params) => {
             let _this = this
             return h('div', [
+              h('Button', {
+                props: {
+                  type: 'primary',
+                  size: 'small',
+                  ghost: true
+                },
+                style: {
+                  marginRight: '5px'
+                },
+                on: {
+                  click: () => {
+                    _this.$router.push({name: 'editContents', params: {id: params.row.contents}})
+                  }
+                }
+              }, '目录管理'),
               h('Button', {
                 props: {
                   type: 'primary',
@@ -183,7 +198,7 @@ export default {
                       title: '删除后不可恢复，确认删除吗,？',
                       content: `<p>标题:${params.row.title}</p>`,
                       onOk: () => {
-                        service.deleteArticle({
+                        service.deleteWiki({
                           id: params.row._id
                         })
                           .then(res => {
@@ -222,9 +237,6 @@ export default {
         }
       }
     }
-  },
-  created () {
-    this.getWikiList()
   },
   methods: {
     getWikiList () {
@@ -266,6 +278,9 @@ export default {
       this.$refs[name].resetFields()
       this.getWikiList()
     }
+  },
+  created () {
+    this.getWikiList()
   }
 }
 </script>

@@ -147,7 +147,7 @@ export default {
         material: ['imagesMaterial', 'postMaterial', 'addPost', 'updatePost'],
         tag: ['addTag'],
         category: ['addCategory'],
-        wiki: ['addWiki', 'wikiList', 'updateWiki']
+        wiki: ['addWiki', 'wikiList', 'updateWiki', 'editContents']
       }
       Object.keys(Menu).forEach((MenuName) => {
         Menu[MenuName].forEach((item) => {

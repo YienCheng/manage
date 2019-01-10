@@ -2,8 +2,11 @@
 <div class="wikiTree">
    <ul>
      <item
-        v-for="(wikiItem, index) in wikiData"
-        :key="index"
+        top
+        :model="wikiData"
+        :children="wikiData.children"
+        :index="0"
+        @changeSelected="changeSelected"
      ></item>
    </ul>
 </div>
@@ -18,39 +21,25 @@ export default {
   },
   data () {
     return {
-      // wikiData: {
-      //   title: '一级菜单',
-      //   children: [
-      //     {
-      //       title: '一级菜单',
-      //       children: [
-      //         {
-      //           title: '二级菜单',
-      //           children: [
-      //             {
-      //               title: '三级菜单'
-      //             }
-      //           ]
-      //         }
-      //       ]
-      //     }
-      //   ]
-      // },
-      wikiData: [
-        {
-          title: '一级菜单',
-          children: [
-            {
-              title: '二级菜单',
-              children: [
-                {
-                  title: '三级菜单'
-                }
-              ]
-            }
-          ]
-        }
-      ]
+      wikiData: {
+        title: '一级菜单',
+        selected: true,
+        children: [
+          {
+            title: '二级菜单',
+            selected: false
+          },
+          {
+            title: '二级菜单',
+            selected: false
+          }
+        ]
+      }
+    }
+  },
+  methods: {
+    changeSelected (obj) {
+      console.log(obj)
     }
   }
 }

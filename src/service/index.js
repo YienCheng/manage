@@ -57,24 +57,33 @@ export const getTagList = (options) => requestGet('/manage/getTagList', options)
 
 // 新增文章
 export const addArticle = (options) => requestPost('/manage/addArticle', options)
-// 新增wiki
-export const addWiki = (options) => requestPost('/manage/addWiki', options)
 // 获取文章列表
 export const getArticleList = (options) => requestGet('/manage/getArticleList', options)
-// 获取wiki列表
-export const getWikiList = (options) => requestGet('/manage/getWikiList', options)
-// 更新wiki
-export const updateWiki = (options) => requestPost('/manage/updateWiki', options)
-// 切换文章发布状态
-export const switchPublished = (options) => requestPost('/manage/switchPublished', options)
-// 切换文章推荐状态
-export const switchRecommend = (options) => requestPost('/manage/switchRecommend', options)
 // 获取文章
 export const getArticle = (options) => requestGet('/manage/getArticle', options)
 // 更新文章
 export const updateArticle = (options) => requestPost('/manage/updateArticle', options)
 // 删除文章
 export const deleteArticle = (options) => requestPost('/manage/deleteArticle', options)
+// 新增wiki
+export const addWiki = (options) => requestPost('/manage/addWiki', options)
+// 获取wiki列表
+export const getWikiList = (options) => requestGet('/manage/getWikiList', options)
+// 更新wiki
+export const updateWiki = (options) => requestPost('/manage/updateWiki', options)
+// 获取wiki列表
+export const getWiki = (options) => requestGet('/manage/getWiki', options)
+// 新增目录
+export const addContents = (options) => requestPost('/manage/addContents', options)
+// 更新目录
+export const updateContents = (options) => requestPost('/manage/updateContents', options)
+// 删除文章
+export const deleteWiki = (options) => requestPost('/manage/deleteWiki', options)
+
+// 切换文章发布状态
+export const switchPublished = (options) => requestPost('/manage/switchPublished', options)
+// 切换文章推荐状态
+export const switchRecommend = (options) => requestPost('/manage/switchRecommend', options)
 
 // 新增文章资源
 export const addPost = (options) => requestPost('/manage/addPost', options)

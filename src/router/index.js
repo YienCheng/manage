@@ -38,6 +38,7 @@ const updatePost = resolve => require.ensure([], () => resolve(require('@/pages/
 const addWiki = resolve => require.ensure([], () => resolve(require('@/pages/wiki/addWiki')), 'addWiki')
 const wikiList = resolve => require.ensure([], () => resolve(require('@/pages/wiki/wikiList')), 'wikiList')
 const updateWiki = resolve => require.ensure([], () => resolve(require('@/pages/wiki/updateWiki')), 'updateWiki')
+const editContents = resolve => require.ensure([], () => resolve(require('@/pages/wiki/editContents')), 'editContents')
 
 const router = new Router({
   mode: 'history',
@@ -230,6 +231,14 @@ const router = new Router({
             title: '更新wiki-网站后台'
           },
           component: updateWiki
+        },
+        {
+          path: 'editContents/:id',
+          name: 'editContents',
+          meta: {
+            title: '新增目录-wiki管理-网站后台'
+          },
+          component: editContents
         }
       ]
     },
